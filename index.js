@@ -11,16 +11,23 @@ var objFileManager = require("./fileManager");
 
 async function trainNeuralNetwork() {
   var oFileManager = new objFileManager();
-  await oFileManager.setupTrainData("train.csv");
 
-  var setupData = oFileManager.setupInputsTargets();
+  var data = await oFileManager.readFile("train.csv");
+  var trainData = oFileManager.getMnistData(data);
 
-  const inputs = setupData[0];
-  const targets = setupData[1];
+  var net = new brain.NeuralNetwork({ hiddenLayers: [784, 392, 196] });
 
-  console.log("one sample from inputs");
-  console.log(inputs[0]);
+  net.train(trainData, {
+    errorThresh: 0.045,
+    log: true,
+    logPeriod: 1,
+    learningRate: 0.1,
+  });
 
-  console.log("one sample from targets");
-  console.log(targets[0]);
+  var json = net.toJSON();
+  oFileManager.saveJsonFile("weights.json", json);
+
+  // You can now use the trained network
+  //const output = net.run(inputs[0]); // for example
+  //console.log(output);
 }

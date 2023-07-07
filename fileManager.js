@@ -82,6 +82,38 @@ class objFileManager {
     var getItem = this.trainData[numItemSelected];
     return [getItem, selectedNumber];
   }
+
+  getMnistData(content) {
+    var lines = content.toString().split("\n");
+
+    var data = [];
+    for (var i = 0; i < lines.length; i++) {
+      var input = lines[i].split(",").map(Number);
+
+      var output = Array.apply(null, Array(10)).map(
+        Number.prototype.valueOf,
+        0
+      );
+      output[input.shift()] = 1;
+
+      data.push({
+        input: input,
+        output: output,
+      });
+    }
+
+    return data;
+  }
+
+  saveJsonFile(fileName, json) {
+    fs.writeFile(fileName, JSON.stringify(json), function (err) {
+      if (err) {
+        return console.log(err);
+      }
+
+      console.log("DONE - Saved results to file.");
+    });
+  }
 }
 
 module.exports = objFileManager;
