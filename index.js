@@ -17,11 +17,12 @@ async function trainNeuralNetwork() {
 
   var net = new brain.NeuralNetwork({ hiddenLayers: [784, 392, 196] });
 
-  net.train(trainData, {
+  net.trainAsync(trainData, {
     errorThresh: 0.045,
     log: true,
     logPeriod: 1,
     learningRate: 0.1,
+    iterations: 2000,
   });
 
   var json = net.toJSON();
