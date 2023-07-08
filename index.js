@@ -6,8 +6,48 @@ var objFileManager = require("./fileManager");
 
 (async () => {
   console.log("ai training with brain.js");
-  await trainNeuralNetwork();
+  await loadAndTestModel();
 })();
+
+async function loadAndTestModel() {
+  var oFileManager = new objFileManager();
+
+  // Load the weights from the JSON file
+  var json = await oFileManager.loadJsonFile("weights.json");
+
+  // Create a new neural network instance
+  const net = new brain.NeuralNetwork();
+  //console.log(json);
+  // Load the weights into the network
+  net.fromJSON(json);
+
+  // Load the test data
+  await oFileManager.setupTrainData("test.csv");
+  var testData = oFileManager.setupInputsTargets();
+
+  const testInputs = testData[0];
+  const testTargets = testData[1];
+
+  let correct = 0;
+
+  for (let i = 0; i < testInputs.length; i++) {
+    const output = net.run(testInputs[i]);
+    const predictedClass = output.indexOf(Math.max(...output));
+    console.log(predictedClass);
+  }
+  //data2Png(testInputs[250], "test");
+  // Run the model on the test data and compare the predictions to the actual values
+  /*for (let i = 0; i < testInputs.length; i++) {
+    const output = net.run(testInputs[i]);
+    if (output[0] === testTargets[i][0]) {
+      correct++;
+    }
+  }
+
+  // Calculate and print the accuracy
+  const accuracy = correct / testInputs.length;
+  console.log(`Accuracy: ${accuracy}`);*/
+}
 
 async function trainNeuralNetwork() {
   var oFileManager = new objFileManager();

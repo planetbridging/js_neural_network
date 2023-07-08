@@ -8,6 +8,15 @@ class objFileManager {
     this.trainData = await this.parseCSV(fileLoc);
   }
 
+  loadJsonFile(fileName) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(fileName, "utf8", (err, data) => {
+        if (err) reject(err);
+        else resolve(JSON.parse(data));
+      });
+    });
+  }
+
   async processLineByLine() {
     const fileStream = fs.createReadStream("train.csv");
 
