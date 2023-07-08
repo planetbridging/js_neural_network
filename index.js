@@ -26,7 +26,7 @@ async function trainNeuralNetwork() {
 
   // Create a new neural network instance
   const net = new brain.NeuralNetwork({
-    hiddenLayers: [20, 20],
+    hiddenLayers: [32, 64, 32],
   });
 
   // Prepare the training data
@@ -42,7 +42,9 @@ async function trainNeuralNetwork() {
     errorThresh: 0.025,
     log: true,
     logPeriod: 1,
-    learningRate: 0.1,
+    learningRate: 0.01,
+    iterations: 2000,
+    activation: "sigmoid", // activation function
   });
 
   var json = net.toJSON();
