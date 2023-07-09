@@ -9,8 +9,10 @@
   "author": "Samuel Watson",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs-node-gpu": "^4.8.0",
     "brain.js": "^2.0.0-beta.23",
     "csv-parser": "^3.0.0",
-    "jimp": "^0.22.8"
+    "jimp": "^0.22.8",
+    "mnist": "^1.1.0"
   }
 }
